@@ -4,7 +4,6 @@
 # later.
 
 import string, re, os, sys, textwrap
-from email.Utils import formatdate
 
 try:
     package = sys.argv[1]
