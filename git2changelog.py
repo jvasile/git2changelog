@@ -50,6 +50,10 @@ class Commit():
                 self.date = line.split(":",1)[1].strip()
                 date_parts = self.date.split(' ')
                 self.date_short = "%s %s %s" % (date_parts[2], date_parts[1], date_parts[4])
+                date_parts[0] +=","
+                date_parts[1], date_parts[2] = date_parts[2], date_parts[1]
+                date_parts[3], date_parts[4] = date_parts[4], date_parts[3]
+                self.date = ' '.join(date_parts)
                 return self.date
 
 
