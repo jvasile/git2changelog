@@ -66,7 +66,8 @@ class Commit():
                 elif line.startswith(" ") and '|' in line:
                     files.append(line.split('|')[0].strip())
 
-        commit = "%s: %s" % (', '.join(files), commit)
+        if files:
+            commit = "%s: %s" % (', '.join(files), commit)
         wrapper = textwrap.TextWrapper(initial_indent="  * ", subsequent_indent="    ", break_on_hyphens=False, break_long_words=False)
         self.commit = wrapper.fill(commit).rstrip()
             
