@@ -4,6 +4,7 @@
 # later.
 
 import string, re, os, sys, textwrap
+from email.Utils import formatdate
 
 try:
     package = sys.argv[1]
@@ -13,6 +14,7 @@ except IndexError:
 class Commit():
     package = ''
     author = ''
+    date_short = ''
     date = ''
     raw = []
     version = "0.1.1"
@@ -36,7 +38,7 @@ class Commit():
     def parse_author(self):
         for line in self.raw:
             # Match the author line and extract the part we want
-            if re.match('Author:', line) >=0:
+            if line.startswith("Author:"):
                 self.authorList = re.split(': ', line, 1)
                 self.author = self.authorList[1].strip()
                 return self.author
@@ -44,10 +46,12 @@ class Commit():
     def parse_date(self):
         for line in self.raw:
             # Match the date line
-            if re.match('Date:', line) >= 0:
-                self.dateList = re.split(': ', line, 1)
-                self.date = self.dateList[1].strip()
+            if line.startswith("Date:"):
+                self.date = line.split(":",1)[1].strip()
+                date_parts = self.date.split(' ')
+                self.date_short = "%s %s %s" % (date_parts[2], date_parts[1], date_parts[4])
                 return self.date
+
 
     def parse_commit(self):
         date = False
@@ -62,8 +66,8 @@ class Commit():
                 elif line.startswith(" ") and '|' in line:
                     files.append(line.split('|')[0].strip())
 
-        commit = "%s: %s\n" % (', '.join(files), commit)
-        wrapper = textwrap.TextWrapper(initial_indent=" * ", subsequent_indent="   ", break_on_hyphens=False, break_long_words=False)
+        commit = "%s: %s" % (', '.join(files), commit)
+        wrapper = textwrap.TextWrapper(initial_indent="  * ", subsequent_indent="    ", break_on_hyphens=False, break_long_words=False)
         self.commit = wrapper.fill(commit).rstrip()
             
     def parse(self):
@@ -73,24 +77,26 @@ class Commit():
         self.parse_date()
         self.parse_commit()
         self.package_line = "%s (%s) unstable; urgency=low\n\n" % (self.package, self.version)
-        self.author_line = " -- " + self.author + "  " + self.date + "\n"
+        self.author_line = "\n -- " + self.author + "  " + self.date + "\n"
 
     def render(self, last=None):
         ret = ''
 
         if last:
-            if last.author_line != self.author_line:
+            if last.author != self.author or last.date_short != self.date_short:
                 ret += last.author_line + "\n"
                 ret += self.package_line
+            else:
+                self.author_line = "\n -- " + self.author + "  " + last.date + "\n"
         else:
             ret += self.package_line
-        ret += self.commit + "\n"
+        ret += self.commit
         return ret
 
 class Commits(list):
     """List of commits"""
     def __init__(self):
-        INF = os.popen('git log --summary --no-merges --stat --date=short', 'r')
+        INF = os.popen('git log --summary --no-merges --stat', 'r')
         for line in INF:
             if line.startswith("commit "):
                 self.append(Commit(line))
