@@ -1,0 +1,16 @@
+git2changelog (0.1.1) unstable; urgency=low
+
+  * git2changelog.py: remove unused import
+  * git2changelog.py: format date so Debian can handle it
+  * git2changelog.py: only try to print files if there are some
+  * git2changelog.py: move commit lines over and format dates for RFC
+    2822
+  * chmod script +x
+  * git2changelog.py: move commit lines over and format dates for RFC
+    2822
+  * chmod +x
+  * git2changelog.py: first draft
+  * VERSION: initial commit
+
+ -- James Vasile <james@hackervisions.org>  Thu, 12 Jan 2012 10:35:22 -0500
+
