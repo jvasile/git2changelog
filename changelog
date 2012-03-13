@@ -1,3 +1,11 @@
+git2changelog (0.1.2) unstable; urgency=low
+
+  * git2changelog.py: avoid doublespaces
+  * VERSION: bump version
+  * git2changelog.py: don't put changelog update messages in changelog
+
+ -- James Vasile <james@jamesvasile.com>  Tue, 13 Mar 2012 09:13:44 -0400
+
 git2changelog (0.1.1) unstable; urgency=low
 
   * git2changelog.py: remove unused import
