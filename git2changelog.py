@@ -69,6 +69,10 @@ class Commit():
                 elif line.startswith(" ") and '|' in line:
                     files.append(line.split('|')[0].strip())
 
+        if files == ['changelog']:
+            self.commit = ''
+            return
+
         if files:
             commit = "%s: %s" % (', '.join(files), commit)
         wrapper = textwrap.TextWrapper(initial_indent="  * ", subsequent_indent="    ", break_on_hyphens=False, break_long_words=False)
@@ -111,7 +115,9 @@ class Commits(list):
     def render(self):
         last = None
         for c in self:
-            print c.render(last=last)
+            out = c.render(last=last)
+            if out:
+                print out
             last = c
         print self.__getitem__(-1).author_line
 
