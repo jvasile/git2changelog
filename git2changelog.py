@@ -117,7 +117,10 @@ class Commits(list):
         for c in self:
             out = c.render(last=last)
             if out:
-                print out
+                if out.endswith("\n\n"):
+                    print out[:-1]
+                else:
+                    print out
             last = c
         print self.__getitem__(-1).author_line
 
