@@ -1,7 +1,14 @@
 #!/usr/bin/python
-# Copyright 2012 James Vasile <james@jamesvasile.com>
-# Distributed under the terms of the GNU General Public License v3 or
-# later.
+
+"""
+Generate a changelog suitable for Debian packages from a git repository log.
+
+This script assumes your changelog is called changelog.  And it
+assumes you maintain a version number in a file called VERSION.
+
+Copyright 2012 James Vasile <james@jamesvasile.com> 
+Distributed under the terms of the GNU General Public License v3 or later.
+"""
 
 import string, re, os, sys, textwrap, subprocess
 
