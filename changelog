@@ -1,10 +1,18 @@
+git2changelog (0.1.3) unstable; urgency=low
+
+  * VERSION: bump
+  * git2changelog.py: don't complain about missing version file
+  * git2changelog.py: ignore git-svn ids
+
+ -- James Vasile <james@jamesvasile.com>  Wed, 14 Mar 2012 12:32:51 -0400
+
 git2changelog (0.1.2) unstable; urgency=low
 
-  * git2changelog.py: avoid doublespaces
   * VERSION: bump version
+  * git2changelog.py: avoid doublespaces
   * git2changelog.py: don't put changelog update messages in changelog
 
- -- James Vasile <james@jamesvasile.com>  Tue, 13 Mar 2012 09:13:44 -0400
+ -- James Vasile <james@jamesvasile.com>  Tue, 13 Mar 2012 09:17:01 -0400
 
 git2changelog (0.1.1) unstable; urgency=low
 
