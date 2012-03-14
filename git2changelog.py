@@ -3,7 +3,7 @@
 # Distributed under the terms of the GNU General Public License v3 or
 # later.
 
-import string, re, os, sys, textwrap
+import string, re, os, sys, textwrap, subprocess
 
 try:
     package = sys.argv[1]
@@ -29,8 +29,11 @@ class Commit():
         self.commit_id = self.raw[0].strip().split(" ")[1]
 
     def get_version(self):
-        INF = os.popen('git show %s:VERSION' % self.commit_id, 'r')
-        v = INF.read().strip()
+        cmd = 'git show %s:VERSION' % self.commit_id
+        p = subprocess.Popen(cmd, shell=True, bufsize=2048,
+          stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
+        (child_stdin, child_stdout, child_stderr) = (p.stdin, p.stdout, p.stderr)
+        v = child_stdout.read().strip()
         if v:
             self.version = v
         
