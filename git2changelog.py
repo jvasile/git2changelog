@@ -72,7 +72,8 @@ class Commit():
                 elif line.startswith(" ") and '|' in line:
                     files.append(line.split('|')[0].strip())
 
-        if files == ['changelog']:
+        files = [f for f in files if f not in ['changelog', 'VERSION']]
+        if not files:
             self.commit = ''
             return
 
