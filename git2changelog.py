@@ -76,6 +76,10 @@ class Commit():
         if files:
             commit = "%s: %s" % (', '.join(files), commit)
         wrapper = textwrap.TextWrapper(initial_indent="  * ", subsequent_indent="    ", break_on_hyphens=False, break_long_words=False)
+
+        if 'git-svn-id: ' in commit:
+            commit = commit.split('git-svn-id: ')[0]
+
         self.commit = wrapper.fill(commit).rstrip()
             
     def parse(self):
